@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Ayushi ❤️</title>
+
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    background: #ffd6e8;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    text-align: center;
+  }
+
+  h1 {
+    color: #ff0066;
+    min-height: 40px;
+  }
+
+  h2 {
+    color: #ff3399;
+    margin-bottom: 25px;
+  }
+
+  img {
+    width: 260px;
+    border-radius: 15px;
+    margin-top: 20px;
+    display: none;
+  }
+
+  .buttons {
+    position: relative;
+    z-index: 10;
+  }
+
+  button {
+    font-size: 22px;
+    padding: 12px 30px;
+    margin: 10px;
+    border: none;
+    border-radius: 10px;
+    background: #ff4da6;
+    color: white;
+    cursor: pointer;
+    pointer-events: auto;
+  }
+
+  #no {
+    position: absolute;
+    right: -120px;
+    top: 0;
+  }
+
+  .confetti {
+    position: fixed;
+    top: -10px;
+    font-size: 22px;
+    animation: fall 3s linear forwards;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  @keyframes fall {
+    to {
+      transform: translateY(100vh) rotate(360deg);
+      opacity: 0;
+    }
+  }
+</style>
+</head>
+
+<body>
+
+<h1 id="typing"></h1>
+<h2 id="question">Will you be my Valentine?</h2>
+
+<img id="photo" src="ayushi-valentine.jpeg" alt="Us ❤️">
+
+<div class="buttons">
+  <button id="yes">YES 💖</button>
+  <button id="no">NO 😈</button>
+</div>
+
+<audio id="music" loop>
+  <source src="piano.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+  const yes = document.getElementById("yes");
+  const no = document.getElementById("no");
+  const typing = document.getElementById("typing");
+  const question = document.getElementById("question");
+  const photo = document.getElementById("photo");
+  const music = document.getElementById("music");
+  const buttons = document.querySelector(".buttons");
+
+  function typeText(text, speed) {
+    return new Promise(resolve => {
+      typing.innerHTML = "";
+      let i = 0;
+      const interval = setInterval(() => {
+        typing.innerHTML += text.charAt(i);
+        i++;
+        if (i === text.length) {
+          clearInterval(interval);
+          resolve();
+        }
+      }, speed);
+    });
+  }
+
+  function confetti() {
+    for (let i = 0; i < 40; i++) {
+      const c = document.createElement("div");
+      c.className = "confetti";
+      c.innerHTML = "❤️";
+      c.style.left = Math.random() * window.innerWidth + "px";
+      c.style.animationDuration = 2 + Math.random() * 2 + "s";
+      document.body.appendChild(c);
+      setTimeout(() => c.remove(), 4000);
+    }
+  }
+
+  yes.onclick = async () => {
+    music.play();
+    buttons.style.display = "none";
+    question.innerText = "Good choice ❤️";
+    photo.style.display = "block";
+
+    await typeText("Ayushi ❤️", 120);
+    await new Promise(r => setTimeout(r, 600));
+    await typeText("You are my forever Valentine 💖", 80);
+
+    confetti();
+  };
+
+  no.onmouseover = () => {
+    const x = Math.random() * 200 - 100;
+    const y = Math.random() * 120 - 60;
+    no.style.transform = `translate(${x}px, ${y}px)`;
+  };
+</script>
+
+</body>
+</html>
